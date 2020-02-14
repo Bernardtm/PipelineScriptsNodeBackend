@@ -1,5 +1,5 @@
 timestamps{
-  def PROJECT = 'nodejs-backend-teste'
+  def PROJECT = 'node-backend'
   def NAME = 'node-backend-v2'
   def IMAGE_BUILDER = 'openshift/nodejs:8'
   def LABEL = 'node-backend-v2'
