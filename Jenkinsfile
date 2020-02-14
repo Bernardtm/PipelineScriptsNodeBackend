@@ -81,8 +81,8 @@ def readProperties() {
     def props = readProperties file: 'jenkins.properties'
     if (props == null)
         error("Erro ao recuperar arquivo de propriedades!")
-    if (required.keySet() != props.keySet())
-        error("Propriedades no arquivo não condizem exatamente com as propriedades exigidas!")
+    if (!props.keySet().containsAll(required.keySet()))
+        error("Nem todas as propriedades exigidas foram encontradas no arquivo!")
     List<String> erros = []
     for (entry in props) {
         def value = ((String) entry.value).trim()
