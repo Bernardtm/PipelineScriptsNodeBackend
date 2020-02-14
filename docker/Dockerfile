@@ -10,3 +10,5 @@ RUN  chown -R app:appgrp .
 USER app
 
 CMD npm start
+
+EXPOSE 3000
