@@ -5,13 +5,13 @@ timestamps{
             // checkout scm
         }
         stage('Compile') {
-          this.jenkinsContext.sh 'npm install'
+          sh 'npm install'
         }
         stage('Test') {
-          this.jenkinsContext.sh 'npm test'
+          sh 'npm test'
         }
         stage('Build') {
-          this.jenkinsContext.print('Build')
+          print('Build')
         }
     }
 }
