@@ -73,7 +73,7 @@ objects:
           name: "@PROJECT_NAME@"
           resources:
             limits:
-              cpu: '2'
+              cpu: 900m
               memory: 2Gi
             requests:
               cpu: 500m
@@ -83,7 +83,7 @@ objects:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: "@HEALTHCHECK@"
               port: "@PORT@"
               scheme: HTTP
             initialDelaySeconds: 360
@@ -93,7 +93,7 @@ objects:
             failureThreshold: 3
           readinessProbe:
             httpGet:
-              path: /
+              path: "@HEALTHCHECK@"
               port: "@PORT@"
               scheme: HTTP
             initialDelaySeconds: 30
