@@ -59,7 +59,7 @@ def deploy(env, templateFile) {
 
 def mountTemplate(env, templateFile) {
 
-    def template = readFile file: "${templateFile}"
+    def template = readFile file: "templates/${templateFile}"
 
     template = template.replace("@APP_LABEL@", "${APP_LABEL}")
     template = template.replace("@PROJECT_NAME@", "${PROJECT_NAME}")
