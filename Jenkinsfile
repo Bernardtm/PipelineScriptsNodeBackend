@@ -1,8 +1,8 @@
 timestamps{
-  def PROJECT = 'node-backend'
-  def NAME = 'node-backend-v2'
+  def NAMESPACE = 'node-backend'
+  def BUILD_CONFIG_NAME_VERSION = 'node-backend-v2'
   def IMAGE_BUILDER = 'openshift/nodejs:8'
-  def LABEL = 'node-backend-v2'
+  def APP_LABEL = 'node-backend-v2'
   def TEMPLATE = 'template-nodejs'
     node('nodejs'){
         stage('Checkout') {
@@ -11,32 +11,24 @@ timestamps{
         }
         stage('Compile') {
           sh 'npm install'
-        }
-        stage('Test') {
+          sh "tar czf ${BUILD_CONFIG_NAME_VERSION}.tgz *"
           sh 'npm test'
         }
         openshift.withCluster() {
-            openshift.withProject("${PROJECT}-qa") {
-                stage('Build'){
-                    if (!openshift.selector("bc", "${NAME}").exists()) {
-                        echo "Criando build"
-                        def nb = openshift.newBuild(".", "--strategy=source", "--image-stream=${IMAGE_BUILDER}", "--name=${NAME}", "-l app=${LABEL}")
-                        def buildSelector = nb.narrow("bc").related("builds")
-                        buildSelector.logs('-f')
-                    }//if
-                    else {
-                        echo "Build já existe. Iniciando build"
-                        def build = openshift.selector("bc", "${NAME}").startBuild()
-                        build.logs('-f')
-                    }//else
-                    }//stage
-                stage('Deploy QA') {
-                    echo "Criando Deployment"
-                    openshift.apply(openshift.process(readFile(file:"${TEMPLATE}-qa.yml"), "--param-file=template_environments"))
-                    openshift.selector("dc", "${NAME}").rollout().latest()
-                    def dc = openshift.selector("dc", "${NAME}")
-                    dc.rollout().status()
-                }//stage
+            openshift.withProject("${NAMESPACE}-qa") {
+              stage('Build'){
+                if (!openshift.selector("bc", "${BUILD_CONFIG_NAME_VERSION}").exists()) {
+                    println "Criando build"
+                    def nb = openshift.newBuild("--name=${BUILD_CONFIG_NAME_VERSION}", "--image-stream=${IMAGE_BUILDER}", "--binary", "-l app=${APP_LABEL}")
+                    def buildSelector = openshift.selector("bc", "${BUILD_CONFIG_NAME_VERSION}").startBuild("--from-archive=${BUILD_CONFIG_NAME_VERSION}.tgz")
+                    buildSelector.logs('-f')
+                }
+                else {
+                    println("Build existente. Iniciando build")
+                    def buildSelector = openshift.selector("bc", "${BUILD_CONFIG_NAME_VERSION}").startBuild("--from-archive=${BUILD_CONFIG_NAME_VERSION}.tgz")
+                    buildSelector.logs('-f')
+                }
+              }
             }//withProject
         }//withCluster
     }
