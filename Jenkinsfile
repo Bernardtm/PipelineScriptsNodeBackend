@@ -86,7 +86,7 @@ def readProperties() {
     List<String> erros = []
     for (entry in props) {
         def value = ((String) entry.value).trim()
-        if ( !( value ==~ required.get(entry.key) ) )
+        if ( required.containsKey(entry.key) && !( value ==~ required.get(entry.key) ) )
             erros.add("Valor da propriedade '" + entry.key + "' não está no formato esperado!")
         else
             env."${entry.key}" = value
