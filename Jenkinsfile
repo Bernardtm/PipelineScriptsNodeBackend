@@ -9,31 +9,31 @@ timestamps{
         }
         stage('Test') {
           sh 'npm test'
-          println("${PROJECT}")
         }
-        // openshift.withCluster() {
-        //     openshift.withProject("${PROJECT}-qa") {
-        //         stage('Build'){
-        //             if (!openshift.selector("bc", "${NAME}").exists()) {
-        //                 echo "Criando build"
-        //                 def nb = openshift.newBuild(".", "--strategy=source", "--image-stream=${IMAGE_BUILDER}", "--name=${NAME}", "-l app=${LABEL}")
-        //                 def buildSelector = nb.narrow("bc").related("builds")
-        //                 buildSelector.logs('-f')
-        //             }//if
-        //             else {
-        //                 echo "Build já existe. Iniciando build"
-        //                 def build = openshift.selector("bc", "${NAME}").startBuild()
-        //                 build.logs('-f')
-        //             }//else
-        //             }//stage
-        //         stage('Deploy QA') {
-        //             echo "Criando Deployment"
-        //             openshift.apply(openshift.process(readFile(file:"${TEMPLATE}-qa.yml"), "--param-file=template_environments"))
-        //             openshift.selector("dc", "${NAME}").rollout().latest()
-        //             def dc = openshift.selector("dc", "${NAME}")
-        //             dc.rollout().status()
-        //         }//stage
-        //     }//withProject
-        // }//withCluster
+        openshift.withCluster() {
+            openshift.withProject("${PROJECT}-qa") {
+                stage('Build'){
+                  echo "${PROJECT}"
+                    // if (!openshift.selector("bc", "${NAME}").exists()) {
+                    //     echo "Criando build"
+                    //     def nb = openshift.newBuild(".", "--strategy=source", "--image-stream=${IMAGE_BUILDER}", "--name=${NAME}", "-l app=${LABEL}")
+                    //     def buildSelector = nb.narrow("bc").related("builds")
+                    //     buildSelector.logs('-f')
+                    // }//if
+                    // else {
+                    //     echo "Build já existe. Iniciando build"
+                    //     def build = openshift.selector("bc", "${NAME}").startBuild()
+                    //     build.logs('-f')
+                    // }//else
+                    }//stage
+                // stage('Deploy QA') {
+                //     echo "Criando Deployment"
+                //     openshift.apply(openshift.process(readFile(file:"${TEMPLATE}-qa.yml"), "--param-file=template_environments"))
+                //     openshift.selector("dc", "${NAME}").rollout().latest()
+                //     def dc = openshift.selector("dc", "${NAME}")
+                //     dc.rollout().status()
+                // }//stage
+            }//withProject
+        }//withCluster
     }
 }
