@@ -16,8 +16,8 @@ timestamps{
         println git_branch
         // if (git_branch ==~ 'master|HEAD') {
             stage ('Code Quality'){
-                // def sonar = load 'devops/sonar.groovy'
-                // sonar.codeQuality()
+                def sonar = load 'devops/sonar.groovy'
+                sonar.codeQuality()
             }
         // }
 
