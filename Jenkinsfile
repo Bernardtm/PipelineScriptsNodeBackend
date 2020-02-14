@@ -14,12 +14,12 @@ timestamps{
 
         def git_branch = sh (script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
         println git_branch
-        if (git_branch ==~ 'master|HEAD') {
+        // if (git_branch ==~ 'master|HEAD') {
             stage ('Code Quality'){
-                def sonar = load 'devops/sonar.groovy'
-                sonar.codeQuality()
+                // def sonar = load 'devops/sonar.groovy'
+                // sonar.codeQuality()
             }
-        }
+        // }
 
         openshift.withCluster() {
             openshift.withProject("${NAMESPACE}-qa") {
