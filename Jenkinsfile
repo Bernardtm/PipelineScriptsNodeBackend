@@ -75,7 +75,7 @@ def readProperties() {
             PROJECT_NAME:               '^\\S+$',
             PROJECT_IMAGES:             '^\\S+$',
             BUILD_CONFIG_NAME_VERSION:  '^\\S+$',
-            BUILD_CONFIG_NAME_VERSION:  '^\\S+$',
+            BUILD_CONFIG_NAME:          '^\\S+$',
             PORT:                       '^\\d+$',
     ]
     def props = readProperties file: 'jenkins.properties'
