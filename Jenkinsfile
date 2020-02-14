@@ -1,7 +1,6 @@
 timestamps{
     node('nodejs'){
         stage('Checkout') {
-            // checkout([$class: 'GitSCM', branches: [[name: '*/openshift']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/bernardtm/jenkins-shared-library.git']]])
             checkout scm
         }
         stage('Compile') {
@@ -26,7 +25,7 @@ timestamps{
                 }
               }
               stage('Deploy QA') {
-                deploy("qa", "templateNode.yml")
+                deploy("qa", "templates/templateNode.yml")
               }
             }//withProject
         }//withCluster
@@ -52,7 +51,7 @@ def deploy(env, templateFile) {
 
     mountTemplate(env, templateFile)
 
-    openshift.apply(openshift.process(readFile(file:"template-${env}.yml")))
+    openshift.apply(openshift.process(readFile(file:"templates/template-${env}.yml")))
     openshift.selector("dc", "${BUILD_CONFIG_NAME_VERSION}").rollout().latest()
     def dc = openshift.selector("dc", "${BUILD_CONFIG_NAME_VERSION}")
     dc.rollout().status()
