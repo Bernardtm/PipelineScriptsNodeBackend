@@ -86,7 +86,7 @@ objects:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: "@HEALTHCHECK@"
               port: "@PORT@"
               scheme: HTTP
             initialDelaySeconds: 360
@@ -96,7 +96,7 @@ objects:
             failureThreshold: 3
           readinessProbe:
             httpGet:
-              path: /
+              path: "@HEALTHCHECK@"
               port: "@PORT@"
               scheme: HTTP
             initialDelaySeconds: 30

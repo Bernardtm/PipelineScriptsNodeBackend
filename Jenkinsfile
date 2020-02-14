@@ -73,6 +73,7 @@ def mountTemplate(env, templateFile) {
     template = template.replace("\"@MAX_REPLICAS@\"", "3")
     template = template.replace("\"@MIN_REPLICAS@\"", "1")
     template = template.replace("\"@PORT@\"", "${PORT}")
+    template = template.replace("\"@HEALTHCHECK@\"", "${HEALTHCHECK}")
 
     writeFile encoding: 'UTF-8', file: "template-${env}.yml", text: template
     println template
