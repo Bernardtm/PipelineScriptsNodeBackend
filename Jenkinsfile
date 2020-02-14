@@ -8,7 +8,7 @@ timestamps{
           readProperties()
           sh 'npm install'
           sh "tar czf ${BUILD_CONFIG_NAME_VERSION}.tgz *"
-          sh 'npm test'
+          // sh 'npm test'
         }
         openshift.withCluster() {
             openshift.withProject("${NAMESPACE}-qa") {
