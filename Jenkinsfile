@@ -26,7 +26,7 @@ timestamps{
                 }
               }
               stage('Deploy QA') {
-                deploy("qa", "devops/templateNode.yml")
+                deploy("qa", "templateNode.yml")
               }
             }//withProject
         }//withCluster
