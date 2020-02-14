@@ -5,6 +5,7 @@ labels:
 metadata:
   name: "@PROJECT_NAME@"
 objects:
+
 - apiVersion: v1
   kind: Service
   metadata:
@@ -20,6 +21,7 @@ objects:
     selector:
       app: "@PROJECT_NAME@"
       deploymentconfig: "@PROJECT_NAME@"
+
 - apiVersion: route.openshift.io/v1
   kind: Route
   metadata:
@@ -36,6 +38,7 @@ objects:
     to:
       kind: Service
       name: "@PROJECT_NAME@"
+
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
