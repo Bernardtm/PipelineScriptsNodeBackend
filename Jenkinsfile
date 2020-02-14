@@ -59,7 +59,7 @@ def deploy(env, templateFile) {
 
 def mountTemplate(env, templateFile) {
 
-    def template = readFile file: "${templateFile}"
+    def template = readFile file: "templates/${templateFile}"
 
     template = template.replace("@APP_LABEL@", "${APP_LABEL}")
     template = template.replace("@PROJECT_NAME@", "${PROJECT_NAME}")
@@ -74,7 +74,7 @@ def mountTemplate(env, templateFile) {
     template = template.replace("\"@PORT@\"", "${PORT}")
     template = template.replace("\"@HEALTHCHECK@\"", "${HEALTHCHECK}")
 
-    writeFile encoding: 'UTF-8', file: "template-${env}.yml", text: template
+    writeFile encoding: 'UTF-8', file: "templates/template-${env}.yml", text: template
     println template
 }
 
