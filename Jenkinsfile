@@ -25,7 +25,7 @@ timestamps{
                 }
               }
               stage('Deploy QA') {
-                deploy("qa", "templates/templateNode.yml")
+                deploy("qa", "templateNode.yml")
               }
             }//withProject
         }//withCluster
@@ -51,7 +51,7 @@ def deploy(env, templateFile) {
 
     mountTemplate(env, templateFile)
 
-    openshift.apply(openshift.process(readFile(file:"templates/template-${env}.yml")))
+    openshift.apply(openshift.process(readFile(file:"template-${env}.yml")))
     openshift.selector("dc", "${BUILD_CONFIG_NAME_VERSION}").rollout().latest()
     def dc = openshift.selector("dc", "${BUILD_CONFIG_NAME_VERSION}")
     dc.rollout().status()
@@ -59,7 +59,7 @@ def deploy(env, templateFile) {
 
 def mountTemplate(env, templateFile) {
 
-    def template = readFile file: "templates/${templateFile}"
+    def template = readFile file: "${templateFile}"
 
     template = template.replace("@APP_LABEL@", "${APP_LABEL}")
     template = template.replace("@PROJECT_NAME@", "${PROJECT_NAME}")
@@ -74,7 +74,7 @@ def mountTemplate(env, templateFile) {
     template = template.replace("\"@PORT@\"", "${PORT}")
     template = template.replace("\"@HEALTHCHECK@\"", "${HEALTHCHECK}")
 
-    writeFile encoding: 'UTF-8', file: "templates/template-${env}.yml", text: template
+    writeFile encoding: 'UTF-8', file: "template-${env}.yml", text: template
     println template
 }
 
