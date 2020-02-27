@@ -1,2 +1,2 @@
-@Library("teste-bernard@openshift-pipeline") _
+@Library("teste-bernard@openshift-secret") _
 release([ language: "javascript", type: "backend-oc"])
